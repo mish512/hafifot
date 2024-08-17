@@ -5,7 +5,7 @@ from pyftpdlib.servers import FTPServer
 BASE_DIR = "./files"
 
 
-def start_ftp_server():
+def start_ftp_server() -> None:
     authorizer = DummyAuthorizer()
     authorizer.add_user("user", "12345", BASE_DIR, perm="elradfmw")
 
