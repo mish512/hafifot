@@ -1,6 +1,8 @@
 import os
 from typing import List, Optional
 
+DOWNLOAD_PATH = "/Downloads/downloaded_file.txt"
+
 
 class FileService:
     def __init__(self, base_dir):
@@ -27,9 +29,12 @@ class FileService:
         try:
             file_path = os.path.join(self.base_dir, filename)
             with open(file_path, 'rb') as file:
-                return file.read()
-        except FileNotFoundError:
-            print("The file was not found")
+                content = file.read()
+            with open(DOWNLOAD_PATH, 'wb') as downloaded_file:
+                downloaded_file.write(content)
+            return content
+        except FileNotFoundError as e:
+            print(f"The file was not found: {e}")
         except OSError as e:
             print(f"Error reading the file: {e}")
         return None
