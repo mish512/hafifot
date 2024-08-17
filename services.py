@@ -35,9 +35,10 @@ class FileService:
             return content
         except FileNotFoundError as e:
             print(f"The file was not found: {e}")
+            return None
         except OSError as e:
             print(f"Error reading the file: {e}")
-        return None
+            return None
 
     def upload_file(self, filename: str, content: bytes) -> Optional[str]:
         """Save content to a file"""
