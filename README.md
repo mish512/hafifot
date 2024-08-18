@@ -40,6 +40,14 @@ app.include_router(file_router)
     * In the `upload_file` function, you read of all of the file to a `content` variable, so you cannot upload it in chunks (problematic if it is a huge file)
   
 5. Inside `config.py`:
-   * Put inside it the config of the ftp server & fastapi
+   * Put inside it the config of the ftp server & fastapi server (host, port, name, etc...)
      
 6. rename `services/services.py` and `routers/routers.py` to be more specific, for example: `services/file_service.py`
+
+## In Bigger Projects (tips):
+1. Pydantic models for the Request Body and Request Response (its good for validation, and also for the swagger)
+2. Checkout and use more of FastAPI's features like exception handlers, middlewares, etc...
+3. Use a loggers instead of printing
+4. Put the config of the project inside a config.json file (allows you to work with multiple programming languages + this is the convention we use).
+5. Don't have magic numbers, for example: file.read(1024). Instead use consts (or params if the value might change), for example: BUFFER_SIZE=1024; file.read(BUFFER_SIZE)
+6. Catch exceptions where they need to be handled, and not in every function that might raise them.
