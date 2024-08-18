@@ -1,4 +1,4 @@
-The project looks really good! Since there is no strict convention on how to structure a fastapi project, I would recommend looking up "fastapi project structure example" on google to take some inspiration (for example, fastapi official documentation: [Bigger Applications Documentation](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-in-another), [Real World Project Example](https://github.com/nsidnev/fastapi-realworld-example-app/tree/master/app/))
+The project looks really good! Since there is no strict convention on how to structure a fastapi project, I would recommend looking up "fastapi project structure example" on google to take some inspiration (for example, fastapi official documentation: [Bigger Applications Documentation](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-in-another), good structured github project: [Real World Project Example](https://github.com/nsidnev/fastapi-realworld-example-app/tree/master/app/))
 
 Some points to consider:
 
