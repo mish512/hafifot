@@ -1,8 +1,7 @@
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
-
-BASE_DIR = "./files"
+from config import BASE_DIR
 
 
 def start_ftp_server() -> None:

@@ -1,8 +1,7 @@
 import os
 from typing import List, Optional
 import aiofiles
-
-DOWNLOAD_PATH = "/Downloads/downloaded_file.txt"
+from config import DOWNLOAD_PATH
 
 
 class FileService:
