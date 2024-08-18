@@ -1,5 +1,6 @@
 import os
 from typing import List, Optional
+import aiofiles
 
 DOWNLOAD_PATH = "/Downloads/downloaded_file.txt"
 
@@ -16,22 +17,14 @@ class FileService:
             print(f"Error listing files {e}")
             return []
 
-    # def download_file(self, filename: str) -> Optional[bytes]:
-    #     """Download the content of a file"""
-    #     file_path = os.path.join(self.base_dir, filename)
-    #     if os.path.exists(file_path):
-    #         with open(file_path, 'rb') as file:
-    #             return file.read()
-    #     return None
-
-    def download_file(self, filename: str) -> Optional[bytes]:
+    async def download_file(self, filename: str) -> Optional[bytes]:
         """Download the content of a file"""
         try:
             file_path = os.path.join(self.base_dir, filename)
-            with open(file_path, 'rb') as file:
-                content = file.read()
-            with open(DOWNLOAD_PATH, 'wb') as downloaded_file:
-                downloaded_file.write(content)
+            async with aiofiles.open(file_path, 'rb') as file:
+                content = await file.read()
+            async with aiofiles.open(DOWNLOAD_PATH, 'wb') as downloaded_file:
+                await downloaded_file.write(content)
             return content
         except FileNotFoundError as e:
             print(f"The file was not found: {e}")
@@ -40,15 +33,15 @@ class FileService:
             print(f"Error reading the file: {e}")
             return None
 
-    def upload_file(self, filename: str, content: bytes) -> Optional[str]:
+    async def upload_file(self, filename: str, content: bytes) -> Optional[str]:
         """Save content to a file"""
         try:
             file_path = os.path.join(self.base_dir, filename)
-            with open(file_path, 'wb') as file:
-                file.write(content)
+            async with aiofiles.open(file_path, 'wb') as file:
+                await file.write(content)
             return file_path
         except OSError as e:
-            print(f"Error updating file {filename}: {e}")
+            print(f"Error saving file {filename}: {e}")
             return None
 
     def delete_file(self, filename: str) -> bool:
