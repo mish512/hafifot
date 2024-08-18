@@ -1,14 +1,37 @@
-## Some comments:
-1. add typing on parameters and return types
-2. add exception handling when reading/writing/removing files in FileService (OSError might be thrown - though unlikely)
-3. Why does the "download file" route does not return the file content (or download it localy) ?
+The project looks really good! Since there is no strict convention on how to structure a fastapi project, I would recommend looking up "fastapi project structure example" on google to take some inspiration (for example, fastapi official documentation: [Bigger Applications Documentation](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-in-another), [Real World Project Example](https://github.com/nsidnev/fastapi-realworld-example-app/tree/master/app/))
 
-## Some suggestions:
-Since this project is small, its good that you kept it simple and concise!
-If it was bigger project, it would be nice to add these:
+Some points to consider:
 
-1. Pydantic models for the Request Body and Request Response (its good for validation, and also for the swagger)
-2. Dependency injection - in fastapi, its done by using "Depends" (from fastapi import Depends). This can help decoupling & testing
-3. Async functions where async operations may be beneficial, like in file_upload & file_download
-4. Handle cases where the file being downloaded / uploaded is very large (split to chunks)
-5. Put the services into a services/ directory, put the routers into a routers/ directory
+1. `Routers` & `App` Relationship: Its good practice to create separate router objects, and then include them in the main app.
+For example:
+
+```python
+# EXAMPLE: src/routers/files_router.py
+
+from fastapi import APIRouter
+
+router = APIRouter(prefix="/files")
+
+@router.get("/")
+async def get_file():
+    ...
+```
+
+```python
+# EXAMPLE: src/main.py
+
+from fastapi import FastAPI
+from src.routers.file_router import router as file_router
+
+app = FastAPI()
+
+app.include_router(file_router)
+```
+
+2. Inside `services.py`:
+    * Would be nice to have the buffer size as a parameter with default value in the `download_file` method
+    * It's cleaner to emit the `return None` statements when the return value is `Optional`
+
+3. Inside `routers.py`:
+    * In the `download_file` function, why you don't return the `content` variable or save it locally as a file ?
+    
