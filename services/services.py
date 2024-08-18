@@ -16,15 +16,17 @@ class FileService:
             print(f"Error listing files {e}")
             return []
 
-    async def download_file(self, filename: str) -> Optional[bytes]:
+    async def download_file(self, filename: str) -> Optional[str]:
         """Download the content of a file"""
         try:
             file_path = os.path.join(self.base_dir, filename)
-            async with aiofiles.open(file_path, 'rb') as file:
-                content = await file.read()
-            async with aiofiles.open(DOWNLOAD_PATH, 'wb') as downloaded_file:
-                await downloaded_file.write(content)
-            return content
+            async with aiofiles.open(file_path, 'rb') as source_file:
+                async with aiofiles.open(DOWNLOAD_PATH, 'wb') as dest_file:
+                    chunk = await source_file.read(1024 * 1024)
+                    while chunk:
+                        await dest_file.write(chunk)
+                        chunk = await source_file.read(1024 * 1024)
+            return DOWNLOAD_PATH
         except FileNotFoundError as e:
             print(f"The file was not found: {e}")
             return None
