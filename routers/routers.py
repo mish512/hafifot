@@ -1,3 +1,4 @@
+import aiofiles
 from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
 from services.services import FileService
 from typing import List
@@ -29,8 +30,7 @@ async def download_file(filename: str, file_service: FileService = Depends(get_f
 async def upload_file(filename: str, file: UploadFile = File(...),
                       file_service: FileService = Depends(get_file_service)) -> dict:
     """Upload a file"""
-    content = await file.read()
-    file_path = await file_service.upload_file(filename, content)
+    file_path = await file_service.upload_file(filename, file.file)  # file.file is the object inside file
     if not file_path:
         raise HTTPException(status_code=500, detail="File could not be saved")
     return {"status": "success", "filename": filename, "path": file_path}
