@@ -1,6 +1,6 @@
 import aiofiles
 from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
-from services.services import FileService
+from services.file_service import FileService
 from typing import List
 from config import BASE_DIR
 
