@@ -1,12 +1,14 @@
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
-from config import BASE_DIR, USER, PASSWORD
+from utils import utility_functions
+
+config = utility_functions.load_config()
 
 
 def start_ftp_server() -> None:
     authorizer = DummyAuthorizer()
-    authorizer.add_user(USER, PASSWORD, BASE_DIR, perm="elradfmw")
+    authorizer.add_user(config['USER'], config['PASSWORD'], config['BASE_DIR'], perm="elradfmw")
 
     handler = FTPHandler
     handler.authorizer = authorizer

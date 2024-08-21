@@ -1,7 +1,9 @@
 import os
 from typing import List, Optional
 import aiofiles
-from config import DOWNLOAD_PATH, KILOBYTE
+from utils import utility_functions
+
+config = utility_functions.load_config()
 
 
 class FileService:
@@ -21,12 +23,12 @@ class FileService:
         try:
             file_path = os.path.join(self.base_dir, filename)
             async with aiofiles.open(file_path, 'rb') as source_file:
-                async with aiofiles.open(DOWNLOAD_PATH, 'wb') as dest_file:
-                    chunk = await source_file.read(KILOBYTE)
+                async with aiofiles.open(config['DOWNLOAD_PATH'], 'wb') as dest_file:
+                    chunk = await source_file.read(config['KILOBYTE'])
                     while chunk:  # as long as there is data in chunk
                         await dest_file.write(chunk)
-                        chunk = await source_file.read(KILOBYTE)
-            return DOWNLOAD_PATH
+                        chunk = await source_file.read(config['KILOBYTE'])
+            return config['DOWNLOAD_PATH']
         except FileNotFoundError as e:
             print(f"The file was not found: {e}")
             return None
@@ -49,17 +51,6 @@ class FileService:
         except OSError as e:
             print(f"Error saving file {filename}: {e}")
             return None
-
-    # async def upload_file(self, filename: str, content: bytes) -> Optional[str]:
-    #     """Save content to a file"""
-    #     try:
-    #         file_path = os.path.join(self.base_dir, filename)
-    #         async with aiofiles.open(file_path, 'wb') as file:
-    #             await file.write(content)
-    #         return file_path
-    #     except OSError as e:
-    #         print(f"Error saving file {filename}: {e}")
-    #         return None
 
     def delete_file(self, filename: str) -> bool:
         """Delete a file"""

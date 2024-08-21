@@ -2,13 +2,14 @@ import aiofiles
 from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
 from services.file_service import FileService
 from typing import List
-from config import BASE_DIR
+from utils import utility_functions
 
+config = utility_functions.load_config()
 app = FastAPI()
 
 
 def get_file_service() -> FileService:
-    return FileService(base_dir=BASE_DIR)
+    return FileService(base_dir=config['BASE_DIR'])
 
 
 @app.get("/files/")
