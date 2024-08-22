@@ -5,6 +5,8 @@ from utils import utility_functions
 
 config = utility_functions.load_config()
 
+logger = utility_functions.create_logger()
+
 
 def start_ftp_server() -> None:
     authorizer = DummyAuthorizer()
@@ -14,7 +16,7 @@ def start_ftp_server() -> None:
     handler.authorizer = authorizer
 
     ftp_server = FTPServer(("0.0.0.0", 21), handler)
-    print("Starting FTP server...")
+    logger.info("Starting FTP server...")
     ftp_server.serve_forever()
 
 

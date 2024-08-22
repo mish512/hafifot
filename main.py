@@ -1,5 +1,4 @@
 import uvicorn
-import json
 from utils import utility_functions
 
 config = utility_functions.load_config()
